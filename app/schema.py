@@ -1,7 +1,7 @@
 from typing import List, Dict, Union, Any
 
 from sqlalchemy.engine.row import RowMapping
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ChatBody(BaseModel):
@@ -10,7 +10,7 @@ class ChatBody(BaseModel):
 
 
 class ChatInput(BaseModel):
-    history: Union[List[ChatBody], None]
+    history: Union[List[ChatBody], None] = Field(default_factory=list, description="List of chat body objects.")
     user_input: str
 
 
@@ -22,5 +22,6 @@ class ChatResult(BaseModel):
 
 
 class RequestResult(BaseModel):
-    context_uid: str
-    result: Union[str, int, List[Dict]]
+    user_context_uid: str
+    assistant_context_id: str
+    result: Union[str, List[Dict]]

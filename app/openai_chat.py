@@ -70,6 +70,7 @@ class QueryConversation:
         return self._parse_query(message)
 
     async def get_db_data(self, chat: ChatInput, conn: AsyncConnection):
+        user_con_uid = self._save_context(chat.user_input)
         chat_res = self.get_sql_query(chat)
         result = None
         context = chat_res.response
@@ -86,7 +87,8 @@ class QueryConversation:
                 result = self.return_message
         con_uid = self._save_context(context)
         return RequestResult(
-            context_uid=con_uid,
+            user_context_uid=user_con_uid,
+            assistant_context_id=con_uid,
             result=result
         )
 
